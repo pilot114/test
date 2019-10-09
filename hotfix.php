@@ -115,7 +115,13 @@ $conf->hotfixBranch = getHotfixBranch();
 
 $cmd = new Cmd($conf);
 
+echo printLn(blue("Проверяем актуальность веток..."));
+$cmd->exec('git checkout develop && git pull origin develop && git fetch --tags');
+$cmd->exec('git checkout master && git pull origin master && git fetch --tags');
+
 $nextTag = getNextTag();
+echo printLn(blue("Новый хотфикс: $nextTag"));
+
 if ($conf->stash) {
     $cmd->exec('git stash');
 }
