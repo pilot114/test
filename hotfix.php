@@ -98,7 +98,7 @@ class Cmd
         }
         $out = array_filter(explode("\n", shell_exec($command)));
 
-        var_dump($out);
+//        var_dump($out);
     }
 }
 
@@ -115,6 +115,11 @@ $conf->hotfixBranch = getHotfixBranch();
 
 $cmd = new Cmd($conf);
 
+if ($conf->stash) {
+    echo printLn(blue("Прячем изменения..."));
+    $cmd->exec('git stash');
+}
+
 echo printLn(blue("Проверяем актуальность веток..."));
 $cmd->exec('git checkout develop && git pull origin develop && git fetch --tags');
 $cmd->exec('git checkout master && git pull origin master && git fetch --tags');
@@ -123,5 +128,7 @@ $nextTag = getNextTag();
 echo printLn(blue("Новый хотфикс: $nextTag"));
 
 if ($conf->stash) {
-    $cmd->exec('git stash');
+    echo printLn(blue("Применяем изменения..."));
+    $cmd->exec('git stash apply');
 }
+echo printLn(blue("Коммитим изменения: $conf->message"));
