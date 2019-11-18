@@ -1,14 +1,18 @@
 <?php
 
+// ошибка, продолжение невозможно
 function red($text) {
 	return "\e[31m".$text."\033[0m";
 }
+// предупреждение
 function yellow($text) {
 	return "\e[33m".$text."\033[0m";
 }
+// обычное информационное сообщение
 function blue($text) {
 	return "\e[36m".$text."\033[0m";
 }
+// сообщение о успешном выполнении действия
 function green($text) {
 	return "\e[32m".$text."\033[0m";
 }
